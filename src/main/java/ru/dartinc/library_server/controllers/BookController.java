@@ -8,8 +8,8 @@ import ru.dartinc.library_server.dto.BookInDTO;
 import ru.dartinc.library_server.dto.BookOutDTO;
 import ru.dartinc.library_server.services.BookService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
