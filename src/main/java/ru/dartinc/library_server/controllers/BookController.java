@@ -28,6 +28,7 @@ public class BookController {
     // метод для скачивания самой распакованной книги
     @GetMapping("/{id}/file")
     public void getBookFile(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException{
+        log.info("Запрос на скачиване файла книги : {}",id);
         var path = service.getBookFile(id);
         downloadFile(path,request,response);
         service.clearTempDir();
