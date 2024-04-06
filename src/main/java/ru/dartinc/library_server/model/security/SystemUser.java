@@ -1,4 +1,4 @@
-package ru.dartinc.library_server.model.systemmodels;
+package ru.dartinc.library_server.model.security;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
