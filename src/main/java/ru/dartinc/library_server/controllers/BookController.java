@@ -1,20 +1,18 @@
 package ru.dartinc.library_server.controllers;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.dartinc.library_server.dto.BookInDTO;
 import ru.dartinc.library_server.dto.BookOutDTO;
 import ru.dartinc.library_server.services.BookService;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -69,6 +67,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}/info")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> getInfoById(@PathVariable Long id) {
         return new ResponseEntity<>(service.getBookInfoById(id), HttpStatus.OK);
     }
@@ -84,6 +83,7 @@ public class BookController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> addBookWithFiles(@RequestBody BookInDTO bookDTO) {
         log.info("Добавление книги");
         var serviceResult = service.addBook(bookDTO);
