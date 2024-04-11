@@ -309,4 +309,14 @@ public class BookService {
         SevenZCompress.cleanBookTemp(new File(pathToTemp));
         return true;
     }
+
+    public boolean deleteFile(String path){
+        try{
+            Files.delete(Paths.get(path));
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

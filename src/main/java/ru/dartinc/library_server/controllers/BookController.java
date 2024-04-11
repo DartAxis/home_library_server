@@ -37,7 +37,7 @@ public class BookController {
         } else {
             log.error("Неудачное скачивание файла книги : {}", id);
         }
-        service.clearTempDir();
+        service.deleteFile(path);
     }
 
     // сделать метод для скачивания архива книги

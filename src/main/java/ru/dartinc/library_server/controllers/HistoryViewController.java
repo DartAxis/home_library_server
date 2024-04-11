@@ -7,7 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.dartinc.library_server.dto.BookOutDTO;
+import ru.dartinc.library_server.dto.HistoryViewDTO;
+import ru.dartinc.library_server.security.model.User;
 import ru.dartinc.library_server.services.HistoryViewService;
 
 import java.util.List;
@@ -19,8 +20,10 @@ public class HistoryViewController {
     private final HistoryViewService service;
 
     @GetMapping
-    public ResponseEntity<Object> getAllHistoryForCurrentUser(){
-        var username = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return new ResponseEntity<>(username, HttpStatus.OK);
+    public ResponseEntity<List<HistoryViewDTO>> getAllHistoryForCurrentUser(){
+        var user =(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var historyList = service.getByUser(user).stream().map(HistoryViewDTO::new).toList();
+
+        return new ResponseEntity<>(historyList, HttpStatus.OK);
     }
 }

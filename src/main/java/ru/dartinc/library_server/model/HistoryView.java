@@ -19,10 +19,10 @@ public class HistoryView {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", unique = false)
     private User user;
     @OneToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", unique = false)
     private Book book;
     private LocalDateTime viewDate;
 }
