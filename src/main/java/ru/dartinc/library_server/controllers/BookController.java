@@ -46,7 +46,9 @@ public class BookController {
         } else {
             log.error("Неудачное скачивание файла книги : {}", id);
         }
-        service.deleteFile(path);
+        if(!service.deleteFile(path)) {
+            log.error("Ошибка удаления файла: {}",path);
+        }
     }
 
     // сделать метод для скачивания архива книги
