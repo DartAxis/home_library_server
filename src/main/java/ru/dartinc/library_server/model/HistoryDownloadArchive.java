@@ -1,10 +1,13 @@
 package ru.dartinc.library_server.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import ru.dartinc.library_server.security.model.User;
 
 import java.time.LocalDateTime;
-
+@Getter
+@Setter
 @Entity(name = "download_history")
 public class HistoryDownloadArchive {
     @Id

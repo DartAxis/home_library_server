@@ -7,8 +7,10 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ru.dartinc.library_server.dto.BookFindRequestDTO;
 import ru.dartinc.library_server.dto.BookInDTO;
 import ru.dartinc.library_server.dto.BookOutDTO;
+import ru.dartinc.library_server.dto.BookOutSmallDTO;
 import ru.dartinc.library_server.services.BookService;
 
 import java.io.FileInputStream;
@@ -17,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -25,6 +28,12 @@ import java.nio.file.Paths;
 public class BookController {
 
     private final BookService service;
+
+    @PostMapping("/find")
+    public ResponseEntity<List<BookOutSmallDTO>> findBook(@RequestBody BookFindRequestDTO requestDTO){
+        var result = service.find(requestDTO).stream().map(BookOutSmallDTO::new).toList();
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
 
 
     // метод для скачивания самой распакованной книги

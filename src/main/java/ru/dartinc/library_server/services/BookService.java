@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import ru.dartinc.library_server.dto.BookFindRequestDTO;
 import ru.dartinc.library_server.dto.BookInDTO;
 import ru.dartinc.library_server.model.*;
 import ru.dartinc.library_server.repository.BookRepository;
@@ -37,6 +38,7 @@ public class BookService {
     private final SeriaService seriaService;
 
     private final HistoryViewService historyViewService;
+    private final HistoryDownloadArchiveService historyDownloadArchiveService;
 
     @Value("${pathtostorage}")
     private String pathToStorage;
@@ -51,9 +53,8 @@ public class BookService {
     private String pathToPictures;
 
 
-    public List<Book> getAllBooksToFront() {
-        var books = repository.findAll();
-        return books;
+    public List<Book> find(BookFindRequestDTO dto){
+        return repository.findBookReuest('%'+dto.getFilters().get("find")+'%');
     }
 
     public Book getBookById(Long id) {
@@ -280,7 +281,13 @@ public class BookService {
 
     public String getArchiveFile(Long id) {
         var result =getBookById(id);
+        User principal =(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(result!= null){
+            HistoryDownloadArchive historyElement = new HistoryDownloadArchive();
+            historyElement.setBook(result);
+            historyElement.setUser(principal);
+            historyElement.setDownloadArchiveDate(LocalDateTime.now());
+            historyDownloadArchiveService.save(historyElement);
             return pathToStorage + result.getPathToZipBook();
         }
         return null;
@@ -303,11 +310,6 @@ public class BookService {
             }
         }
         return null;
-    }
-
-    public boolean clearTempDir(){
-        SevenZCompress.cleanBookTemp(new File(pathToTemp));
-        return true;
     }
 
     public boolean deleteFile(String path){
