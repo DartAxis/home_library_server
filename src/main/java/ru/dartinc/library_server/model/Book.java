@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -76,4 +78,7 @@ public class Book {
 
     @Column(name = "pathtopic")
     private String pathToPic;
+
+    @Column(name = "add_date")
+    private LocalDateTime addDate;
 }
