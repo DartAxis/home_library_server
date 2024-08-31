@@ -58,5 +58,4 @@ public class AuthorController {
         map.put("message", "Возможно не задана фамилия автора для добавления");
         return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
     }
-
 }
